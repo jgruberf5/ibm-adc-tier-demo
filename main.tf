@@ -1,11 +1,13 @@
 resource "ibm_is_vpc" "adc_tier_vpc" {
-  name = "adc-tier-vpc-${var.region}-${var.zone}"
+  name                     = "adc-tier-vpc-${var.region}-${var.zone}"
+  resource_group           = var.resource_group
 }
 
 resource "ibm_is_subnet" "f5_management" {
   name                     = "adc-tier-${var.region}-${var.zone}-f5-management"
   vpc                      = ibm_is_vpc.adc_tier_vpc.id
   zone                     = "${var.region}-${var.zone}"
+  resource_group           = var.resource_group
   total_ipv4_address_count = "256"
 }
 
@@ -13,13 +15,15 @@ resource "ibm_is_subnet" "f5_cluster" {
   name                     = "adc-tier-${var.region}-${var.zone}-f5-cluster"
   vpc                      = ibm_is_vpc.adc_tier_vpc.id
   zone                     = "${var.region}-${var.zone}"
+  resource_group           = var.resource_group
   total_ipv4_address_count = "256"
 }
 
 resource "ibm_is_subnet" "f5_internal" {
   name                     = "adc-tier-${var.region}-${var.zone}-f5-internal"
-  vpc                      = ibm_is_vpc.testharness_vpc.id
+  vpc                      = ibm_is_vpc.adc_tier_vpc.id
   zone                     = "${var.region}-${var.zone}"
+  resource_group           = var.resource_group
   total_ipv4_address_count = "256"
 }
 
@@ -27,12 +31,14 @@ resource "ibm_is_subnet" "f5_external" {
   name                     = "adc-tier-${var.region}-${var.zone}-f5-external"
   vpc                      = ibm_is_vpc.adc_tier_vpc.id
   zone                     = "${var.region}-${var.zone}"
+  resource_group           = var.resource_group
   total_ipv4_address_count = "256"
 }
 
 resource "ibm_is_ssh_key" "ssh_key" {
-  name       = "adc-tier-${var.region}-${var.zone}-ssh"
-  public_key = var.ssh_public_key
+  name                     = "adc-tier-${var.region}-${var.zone}-ssh"
+  public_key               = var.ssh_public_key
+  resource_group           = var.resource_group
 }
 
 output "adc_tier_vpc_id" {

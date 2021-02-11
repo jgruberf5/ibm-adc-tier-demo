@@ -1,3 +1,7 @@
+variable "resource_group" {
+    default = ""
+}
+
 variable "api_key" {
   default = ""
 }
