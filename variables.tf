@@ -53,11 +53,16 @@ variable "tmos_image_type" {
   #}
 }
 
-
+##################################################################################
+# api_key - api_key to be used for infrastructure creation
+##################################################################################
 variable "api_key" {
   default = ""
 }
 
+##################################################################################
+# ssh_public_key - public key to use for ssh
+##################################################################################
 variable "ssh_public_key" {
   default = ""
 }
@@ -66,11 +71,17 @@ variable "ssh_private_key" {
   default = ""
 }
 
+##################################################################################
+# Region to create environment
+##################################################################################
 variable "region" {
   default     = "us-south"
   description = "Region to test."
 }
 
+##################################################################################
+# zone - 1-3, zone in which to create environment
+##################################################################################
 variable "zone" {
   default     = "1"
   description = "Zones in each region to test."

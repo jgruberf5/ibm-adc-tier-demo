@@ -4,7 +4,7 @@ data ibm_resource_group "group" {
 
 # get the public image COS SQL url and default name
 data "external" "f5_public_image" {
-  program = ["python", "${path.module}/bigip_image_selector.py"]
+  program = ["python3", "${path.module}/bigip_image_selector.py"]
   query = {
       download_region = var.download_region
       version_prefix = var.tmos_version
