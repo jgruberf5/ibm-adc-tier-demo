@@ -24,7 +24,9 @@ def get_public_images(region):
 
 
 def longest_substr(type, catalog_image_name, version_prefix):
-    if type == 'large' and catalog_image_name.find(type) < 0:
+    if type == 'standard' and catalog_image_name.find('large') > 0:
+        return 0
+    if type == 'large' and catalog_image_name.find('large') < 0:
         return 0
     if catalog_image_name.find(version_prefix) < 0:
         return 0
