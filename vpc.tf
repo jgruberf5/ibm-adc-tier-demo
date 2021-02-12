@@ -27,6 +27,14 @@ resource "ibm_is_subnet" "f5_management" {
   total_ipv4_address_count = "256"
 }
 
+resource "ibm_is_subnet" "f5_cluster" {
+  name                     = "adc-tier-${var.region}-${var.zone}-f5-cluster"
+  vpc                      = ibm_is_vpc.adc_tier_vpc.id
+  zone                     = "${var.region}-${var.zone}"
+  resource_group           = data.ibm_resource_group.group.id
+  total_ipv4_address_count = "256"
+}
+
 resource "ibm_is_subnet" "f5_internal" {
   name                     = "adc-tier-${var.region}-${var.zone}-f5-internal"
   vpc                      = ibm_is_vpc.adc_tier_vpc.id
@@ -53,27 +61,35 @@ output "adc_tier_vpc_id" {
   value = ibm_is_vpc.adc_tier_vpc.id
 }
 
-output "f5_management_id" {
+output "f5_management_subnet_id" {
   value = ibm_is_subnet.f5_management.id
 }
 
-output "f5_management_cidr" {
+output "f5_management_subnet_cidr" {
   value = ibm_is_subnet.f5_management.ipv4_cidr_block
 }
 
-output "f5_internal_id" {
+output "f5_cluster_subnet_id" {
+  value = ibm_is_subnet.f5_cluster.id
+}
+
+output "f5_cluster_subnet_cidr" {
+  value = ibm_is_subnet.f5_cluster.ipv4_cidr_block
+}
+
+output "f5_internal_subnet_id" {
   value = ibm_is_subnet.f5_internal.id
 }
 
-output "f5_internal_cidr" {
+output "f5_internal_subnet_cidr" {
   value = ibm_is_subnet.f5_internal.ipv4_cidr_block
 }
 
-output "f5_external_id" {
+output "f5_external_subnet_id" {
   value = ibm_is_subnet.f5_external.id
 }
 
-output "f5_external_cidr" {
+output "f5_external_subnet_cidr" {
   value = ibm_is_subnet.f5_external.ipv4_cidr_block
 }
 
