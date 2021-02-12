@@ -61,9 +61,6 @@ variable "bigiq_version" {
 variable "ssh_public_key" {
   default = ""
 }
-variable "ssh_private_key" {
-  default = ""
-}
 
 ##################################################################################
 # bigiq_profile - The name of the VPC profile to use for the F5 BIG-IQ instance

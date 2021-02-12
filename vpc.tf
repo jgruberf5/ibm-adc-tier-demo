@@ -88,7 +88,3 @@ output "ssh_key_name" {
 output "ssh_public_key" {
   value = var.ssh_public_key
 }
-
-output "ssh_private_key" {
-  value = var.ssh_private_key
-}
