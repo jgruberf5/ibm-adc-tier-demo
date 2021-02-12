@@ -103,6 +103,10 @@ output "f5_bigiq_profile_id" {
   value = data.ibm_is_instance_profile.bigiq_profile.id
 }
 
+output "f5_bigiq_management_ip" {
+  value = ibm_is_instance.f5_bigiq.primary_network_interface.0.primary_ipv4_address
+}
+
 output "f5_bigiq_phone_home_url" {
   value = var.phone_home_url
 }
