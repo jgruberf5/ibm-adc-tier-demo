@@ -3,6 +3,22 @@ resource "ibm_is_vpc" "adc_tier_vpc" {
   resource_group           = data.ibm_resource_group.group.id
 }
 
+// allow all inbound
+resource "ibm_is_security_group_rule" "f5_allow_inbound" {
+  depends_on = [ibm_is_vpc.adc_tier_vpc]
+  group      = ibm_is_vpc.adc_tier_vpc.default_security_group
+  direction  = "inbound"
+  remote     = "0.0.0.0/0"
+}
+
+// all all outbound
+resource "ibm_is_security_group_rule" "f5_allow_outbound" {
+  depends_on = [ibm_is_vpc.adc_tier_vpc]
+  group      = ibm_is_vpc.adc_tier_vpc.default_security_group
+  direction  = "outbound"
+  remote     = "0.0.0.0/0"
+}
+
 resource "ibm_is_subnet" "f5_management" {
   name                     = "adc-tier-${var.region}-${var.zone}-f5-management"
   vpc                      = ibm_is_vpc.adc_tier_vpc.id

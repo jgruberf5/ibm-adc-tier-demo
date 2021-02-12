@@ -8,103 +8,6 @@ variable "resource_group" {
 }
 
 ##################################################################################
-# download_region - The VPC region to Download the Public BIG-IP COS Image Catalog
-##################################################################################
-variable "download_region" {
-  type        = string
-  default     = "us-south"
-  description = "The VPC region to Download the Public BIG-IP COS Image Catalog"
-  # when IBM Schematics 0.13 has the IBM provider installed
-  #validation {
-  #  condition = contains(['us-south', 'us-east', 'eu-gb', 'eu-de', 'jp-tok', 'au-syd'], var.download_region)
-  #  error_message = "download_region must be a public VPC region"
-  #}
-}
-
-##################################################################################
-# bigip_image_name - The VPC Custom Image Name for BIG-IP
-##################################################################################
-variable "bigip_image_name" {
-  type        = string
-  default     = ""
-  description = "The VPC Custom Image Name for BIG-IP"
-}
-
-##################################################################################
-# bigip_version - The version of BIG-IP image to Import
-##################################################################################
-variable "bigip_version" {
-  type        = string
-  default     = "15.1"
-  description = "The version of BIG-IP image to Import"
-}
-
-##################################################################################
-# bigip_image_type - The type of BIG-IP image to Import
-##################################################################################
-variable "bigip_image_type" {
-  type        = string
-  default     = "ltm"
-  description = "Select between ltm or all BIG-IP VE images"
-  # when IBM Schematics 0.13 has the IBM provider installed
-  #validation {
-  #  condition = contains(['ltm', 'all'], var.bigip_image_type)
-  #  error_message = "bigip_image_type can be ltm or all only"
-  #}
-}
-
-
-##################################################################################
-# bigiq_image_name - The VPC Custom Image Name for BIGIQ
-##################################################################################
-variable "bigiq_image_name" {
-  type        = string
-  default     = ""
-  description = "The VPC Custom Image Name for BIGIQ"
-}
-
-##################################################################################
-# bigiq_version - The version of BIG-IQ image to Import
-##################################################################################
-variable "bigiq_version" {
-  type        = string
-  default     = "7.1"
-  description = "The version of BIG-IQ image to Import"
-}
-
-##################################################################################
-# bigiq_image_type - The type of BIG-IQ image to Import
-##################################################################################
-variable "bigiq_image_type" {
-  type        = string
-  default     = "standard"
-  description = "Select between standard or large BIG-IQ VE images"
-  # when IBM Schematics 0.13 has the IBM provider installed
-  #validation {
-  #  condition = contains(['ltm', 'all'], var.bigiq_image_type)
-  #  error_message = "bigiq_image_type can be ltm or all only"
-  #}
-}
-
-##################################################################################
-# api_key - api_key to be used for infrastructure creation
-##################################################################################
-#variable "api_key" {
-#  default = ""
-#}
-
-##################################################################################
-# ssh_public_key - public key to use for ssh
-##################################################################################
-variable "ssh_public_key" {
-  default = ""
-}
-
-variable "ssh_private_key" {
-  default = ""
-}
-
-##################################################################################
 # Region to create VPC environment
 ##################################################################################
 variable "region" {
@@ -118,4 +21,145 @@ variable "region" {
 variable "zone" {
   default     = "1"
   description = "Zones in each region to create VPC environment"
+}
+
+##################################################################################
+# download_region - The VPC region to Download the Public BIG-IP COS Image
+##################################################################################
+variable "download_region" {
+  type        = string
+  default     = "us-south"
+  description = "The VPC region to Download the Public BIG-IP COS Image"
+  # when IBM Schematics 0.13 has the IBM provider installed
+  #validation {
+  #  condition = contains(['us-south', 'us-east', 'eu-gb', 'eu-de', 'jp-tok', 'au-syd'], var.download_region)
+  #  error_message = "download_region must be a public VPC region"
+  #}
+}
+
+##################################################################################
+# bigip_version - The version of BIG-IP image to Import
+##################################################################################
+variable "bigip_version" {
+  type        = string
+  default     = "15.1"
+  description = "The version of BIG-IP image to Import"
+}
+
+##################################################################################
+# bigiq_version - The version of BIG-IQ image to Import
+##################################################################################
+variable "bigiq_version" {
+  type        = string
+  default     = "7.1"
+  description = "The version of BIG-IQ image to Import"
+}
+
+##################################################################################
+# ssh_public_key - public key to use for ssh
+##################################################################################
+variable "ssh_public_key" {
+  default = ""
+}
+variable "ssh_private_key" {
+  default = ""
+}
+
+##################################################################################
+# bigiq_profile - The name of the VPC profile to use for the F5 BIG-IQ instance
+##################################################################################
+variable "bigiq_profile" {
+  type        = string
+  default     = "bx2-4x16"
+  description = "The resource profile to be used when provisioning the F5 BIG-IQ instance"
+}
+
+##################################################################################
+# phone_home_url - The web hook URL to POST status to when F5 BIG-IQ onboarding completes
+##################################################################################
+variable "phone_home_url" {
+  type        = string
+  default     = ""
+  description = "The URL to POST status when BIG-IQ is finished onboarding"
+}
+
+##################################################################################
+# schematic template for license pool playbooks
+##################################################################################
+variable "license_type" {
+  type        = string
+  default     = "none"
+  description = "How to license, may be 'none','bigiq_regkey','regkeypool','utilitypool'"
+}
+
+variable "license_pool_name" {
+  type        = string
+  default     = "none"
+  description = "The name of the BIG-IP license pool to create"
+}
+
+variable "license_utility_regkey" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP utility pool regkey to create offerings to grant"
+}
+
+variable "license_offerings_1" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_2" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_3" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_4" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_5" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_6" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_7" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_8" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_9" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
+}
+
+variable "license_offerings_10" {
+  type        = string
+  default     = "none"
+  description = "The BIG-IP regkey pool offering key"
 }
