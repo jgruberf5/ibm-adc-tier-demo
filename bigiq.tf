@@ -12,6 +12,8 @@ locals {
   }
 }
 
+resource "random_uuid" "namer" {}
+
 resource "random_password" "password" {
   length           = 16
   special          = true
@@ -91,6 +93,13 @@ resource "ibm_is_instance" "f5_bigiq" {
   }
 }
 
+resource "ibm_is_floating_ip" "f5_management_floating_ip" {
+  name   = "f0-${random_uuid.namer.result}"
+  resource_group = data.ibm_resource_group.group.id
+  count  = var.bigiq_management_floating_ip ? 1 : 0
+  target = ibm_is_instance.f5_bigiq.primary_network_interface.0.id
+}
+
 output "f5_bigiq_name" {
   value = ibm_is_instance.f5_bigiq.name
 }
@@ -109,4 +118,8 @@ output "f5_bigiq_management_ip" {
 
 output "f5_bigiq_phone_home_url" {
   value = var.phone_home_url
+}
+
+output "f5_bigiq_management_floating_ip" {
+  value = var.bigiq_management_floating_ip ? ibm_is_floating_ip.f5_management_floating_ip[0].address : "" 
 }

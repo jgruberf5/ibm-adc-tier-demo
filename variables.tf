@@ -81,6 +81,15 @@ variable "bigiq_admin_password" {
 }
 
 ##################################################################################
+# bigiq_management_floating_ip - Create a Floating IP for the management interface for BIG-IQ
+##################################################################################
+variable "bigiq_management_floating_ip" {
+  type        = bool
+  default     = false
+  description = "Create a Floating IP for the management interface for BIG-IQ"
+}
+
+##################################################################################
 # The F5 BIQ-IP license basekey to activate against activate.f5.com
 ##################################################################################
 variable "license_basekey" {
