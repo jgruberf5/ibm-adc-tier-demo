@@ -75,6 +75,24 @@ variable "bigiq_profile" {
 }
 
 ##################################################################################
+# bigiq_admin_password - The password for the built-in admin F5 BIG-IQ user
+##################################################################################
+variable "bigiq_admin_password" {
+  type        = string
+  default     = ""
+  description = "admin account password for the F5 BIG-IQ instance"
+}
+
+##################################################################################
+# The F5 BIQ-IP license basekey to activate against activate.f5.com
+##################################################################################
+variable "license_basekey" {
+  type        = string
+  default     = "none"
+  description = "License registration key for the F5 BIG-IQ instance"
+}
+
+##################################################################################
 # phone_home_url - The web hook URL to POST status to when F5 BIG-IQ onboarding completes
 ##################################################################################
 variable "phone_home_url" {

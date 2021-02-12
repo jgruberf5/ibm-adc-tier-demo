@@ -5,10 +5,10 @@ data "ibm_is_instance_profile" "bigiq_profile" {
 locals {
   # set the user_data YAML template for each license type
   license_map = {
-    "none"         = "${file("${path.module}/bigiq_user_data_no_license.yaml")}"
-    "bigiq_regkey" = "${file("${path.module}/bigiq_user_data_license_only.yaml")}"
-    "regkeypool"   = "${file("${path.module}/bigiq_user_data_license_regkey_pool.yaml")}"
-    "utilitypool"  = "${file("${path.module}/bigiq_user_data_license_utility_pool.yaml")}"
+    "none"         = file("${path.module}/bigiq_user_data_no_license.yaml")
+    "bigiq_regkey" = file("${path.module}/bigiq_user_data_license_only.yaml")
+    "regkeypool"   = file("${path.module}/bigiq_user_data_license_regkey_pool.yaml")
+    "utilitypool"  = file("${path.module}/bigiq_user_data_license_utility_pool.yaml")
   }
 }
 
@@ -66,27 +66,29 @@ data "template_file" "user_data" {
 }
 
 resource "ibm_is_instance" "f5_bigiq" {
-  name    = "bigiq-licensor-vpc-${var.region}-${var.zone}"
-  image   = ibm_is_image.bigiq_custom_image.id
-  profile = data.ibm_is_instance_profile.bigiq_profile.id
+  name           = "bigiq-licensor-vpc-${var.region}-${var.zone}"
+  resource_group = data.ibm_resource_group.group.id
+  image          = ibm_is_image.bigiq_custom_image.id
+  profile        = data.ibm_is_instance_profile.bigiq_profile.id
   primary_network_interface {
     name            = "management"
     subnet          = ibm_is_subnet.f5_management.id
     security_groups = [ibm_is_vpc.adc_tier_vpc.default_security_group]
   }
-  dynamic "network_interfaces" {
-    for_each = local.secondary_subnets
-    content {
-      name            = "internal"
-      subnet          = ibm_is_subnet.f5_internal.id
-      security_groups = [ibm_is_vpc.adc_tier_vpc.default_security_group]
-    }
+  network_interfaces {
+    name            = "internal"
+    subnet          = ibm_is_subnet.f5_internal.id
+    security_groups = [ibm_is_vpc.adc_tier_vpc.default_security_group]
   }
   vpc        = ibm_is_vpc.adc_tier_vpc.id
   zone       = "${var.region}-${var.zone}"
   keys       = [ibm_is_ssh_key.ssh_key.id]
   user_data  = data.template_file.user_data.rendered
   depends_on = [ibm_is_security_group_rule.f5_allow_outbound]
+  timeouts {
+    create = "60m"
+    delete = "60m"
+  }
 }
 
 output "f5_bigiq_name" {
@@ -98,7 +100,7 @@ output "f5_bigiq_instance_id" {
 }
 
 output "f5_bigiq_profile_id" {
-  value = data.ibm_is_instance_profile.instance_profile.id
+  value = data.ibm_is_instance_profile.bigiq_profile.id
 }
 
 output "f5_bigiq_phone_home_url" {
